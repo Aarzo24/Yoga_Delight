@@ -7,12 +7,16 @@ import About from './pages/About/About'
 import Contact from './pages/Contact/Contact'
 import Tutorials from './pages/Tutorials/Tutorials'
 
+
+
+
 import './App.css'
 
 export default function App() {
   return (
     <Router>
       <Routes>
+      
         <Route path='/' element={<Home />}/>
         <Route path='/start' element={<Yoga />} />
         <Route path='/about' element={<About />} />
@@ -22,5 +26,7 @@ export default function App() {
     </Router>
   )
 }
+
+
 
 
