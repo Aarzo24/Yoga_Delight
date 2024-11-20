@@ -1,5 +1,9 @@
-import React from "react";
+
+import React, { useState } from 'react';  
 import { Link } from "react-router-dom";
+import { signInWithPopup } from "firebase/auth";  // Import signInWithPopup from Firebase
+import { auth, provider } from "../../components/Firebase";  // Correct path
+
 import first from "./images/th.jpeg"
 import second from "./images/7202105.jpg"
 import m1 from "./images/lotus.png"
@@ -12,6 +16,27 @@ import m6 from "./images/cobra.png"
 import "./Home.css";
 
 export default function Home() {
+  const [isSignedIn, setIsSignedIn] = useState(false);  // Track the sign-in status
+
+  const handleSignIn = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user = result.user;
+        console.log("User signed in: ", user);
+        setIsSignedIn(true);  // Update sign-in status to true
+      })
+      .catch((error) => {
+        console.error("Error during sign-in: ", error.message);
+      });
+  };
+
+  const handleSignOut = () => {
+    auth.signOut().then(() => {
+      setIsSignedIn(false);  // Update sign-in status to false
+    });
+  };
+
+
   return (
     <div>
       <section
@@ -54,6 +79,12 @@ export default function Home() {
                   </a>
                 </li>
                 </Link>
+                <button 
+                  className="nav-item nav-link btn btn-primary" 
+                  onClick={isSignedIn ? handleSignOut : handleSignIn}  // Toggle Sign-In/Sign-Out
+                >
+                  {isSignedIn ? 'Sign Out' : 'Sign In'}  {/* Dynamic button text */}
+                </button>
                 {/* <li className="nav-item">
                   <a className="nav-link" href="#pricing">
                     Contact Us
